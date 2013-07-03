@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.7 (03.04.13)
+* @version 0.0.10 (03.07.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -16,7 +16,7 @@
 var ns = 'wipnav'; // Namespace
 
 (function( $ ) {
-  
+
   var methods = {
     /*
     * The initialization method.
@@ -25,31 +25,33 @@ var ns = 'wipnav'; // Namespace
     *
     */
     init : function( options ) {
-      
+
       // SETTINGS
       var settings = $.extend({
-        'sufi'          : false,       // Use wipnav in conjunction with superfish?
-        'sufiSettings'  : null,        // If used with superfish the settings are needed for restarting the superfish navigation.
-        /*'subIndent'   : 0,*/         // Indention for links on lower levels.
-        'linkScaleUp'   : '',          // Scale mobile links up. Padding in px.
-        'type'          : 'accordion', // Determines the type of the mobile navigation.
-        'threshold'     : 980,         // Wipnav gets activated when page-width is equal or under threshold.
-        'navButton'     : null         // The selector for an optional button to hide and display the whole navigation.
+        'sufi'          : false,             // Use wipnav in conjunction with superfish?
+        'sufiSettings'  : null,              // If used with superfish the settings are needed for restarting the superfish navigation.
+        /*'subIndent'   : 0,*/               // Indention for links on lower levels.
+        'linkScaleUp'   : '',                // Scale mobile links up. Padding in px.
+        'type'          : 'accordion',       // Determines the type of the mobile navigation.
+        'threshold'     : 980,               // Wipnav gets activated when page-width is equal or under threshold.
+        'navButton'     : null,              // The selector for an optional button to hide and display the whole navigation.
+        'navAnim'       : {height: 'toggle'} // Animation when navigation is toggled via the trigger specified in navButton.
       }, options);
       
       return this.each(function(){
-        
+
         var $this = $(this),
-            data = $this.data(ns);
+        data = $this.data(ns);
         
         // If the plugin hasn't been initialized yet
         if ( settings['sufi'] && settings['sufiSettings'] == null ) {
           console.warn('Wipnav: Superfish settings are required in order to restart the Superfish Navigation on window resize. ' + settings['sufiSettings'] + ' is given!');
         } else if ( !data ) {
-          
+
           // DATA INIT
           $this.data(ns, {
             mobNavAct : false,
+            navWidth  : 0,
             settings  : settings,
             ulStyle   : { 'width' : '100%', 'padding-left' : '0', 'padding-right' : '0', 'visibility' : 'visible', 'position' : 'relative' },
             liAStyle  : { 'height' : 'auto', 'display' : 'block', 'width' : 'auto', 'padding-top' : settings['linkScaleUp'], 'padding-bottom' : settings['linkScaleUp'] },
@@ -57,10 +59,21 @@ var ns = 'wipnav'; // Namespace
           });
           data = $this.data(ns);
           
+          /*
+          *  Handles visibility of the nav button.
+          *  Enables and disables superfish if necessary.
+          *  Initializes and kills mobile navigation if necessary.
+          *
+          */
           $(window).bind('resize.' + ns, function(){
             if ( $(window).width() <= settings['threshold'] ) {
-              $(settings.navButton).show();
+
+              data['navWidth'] = $(this).outerWidth(true);
+
               if ( data.mobNavAct === false ) {
+
+                $(settings['navButton']).show();
+
                 if ( settings['sufi'] === true ) {
                   methods.killSF.apply($this);
                 }
@@ -68,8 +81,11 @@ var ns = 'wipnav'; // Namespace
                 data.mobNavAct = methods.initMobNav.call($this);
               }
             } else {
-              $(settings.navButton).hide();
+
               if ( data.mobNavAct === true ) {
+
+                $(settings['navButton']).hide();
+
                 data.mobNavAct = methods.killMobNav.call($this);
                 
                 if ( settings['sufi'] === true ) {
@@ -85,8 +101,8 @@ var ns = 'wipnav'; // Namespace
           console.warn('Wipnav: Plugin has already been initialized!');
         }
       });
-    },
-    
+},
+
     /*
     * Enables the superfish Menu
     *
@@ -95,7 +111,7 @@ var ns = 'wipnav'; // Namespace
     */
     initSF : function( ) {
       var $this = $(this),
-          data = $this.data(ns);
+      data = $this.data(ns);
       
       // call supersubs first, then superfish, so that subs are 
       // not display:none when measuring. Call before initialising 
@@ -109,34 +125,35 @@ var ns = 'wipnav'; // Namespace
     */
     killSF : function( ) {
       var $this = $(this),
-          data = $this.data(ns);
+      data = $this.data(ns);
       
       $this.removeClass('sf-js-enabled');
       $this.find('li').off('mouseover').off('mouseout').off('hover');
     },
     
     /*
-    * Enables the mobile navigation. 
+    * Enables the mobile navigation.
+    * @param this The DOM object on which the wipnav got intialized.
     *
     */
     initMobNav : function( ) {
       var $this = $(this),
-          data = $this.data(ns);
+      data = $this.data(ns);
       
       // navButton logic
       if ( !($(data.settings['navButton']) == null) ) {
         // Hide menu initially
-        $this.css('display', 'none');
+        $this.hide();
         $(data.settings['navButton']).removeClass('expanded').addClass('collapsed');
         $(data.settings['navButton']).bind('click.' + ns, function(){
           $(this).toggleClass('collapsed expanded')
-          $this.slideToggle();
+          $this.animate(data.settings['navAnim']);
         });
       }
-      
+
       // TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
-        $this.find('ul').css( data.ulStyle );
+
         $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('>a').bind('click.' + ns, function(){
           $this.find('li.expanded').not($(this).parent('li')).toggleClass('collapsed expanded').find('>ul').slideToggle();
           $(this).parent('li').toggleClass('collapsed expanded');
@@ -144,13 +161,39 @@ var ns = 'wipnav'; // Namespace
           // Disables anchor functionality.
           return false;
         });
+
+        $this.find('ul').css( data.ulStyle );
       }
       
-      // TODO: SLIDING
-      if ( data.settings['type'] === 'sliding' ) {
+      // TYPE: SLIDER
+      if ( data.settings['type'] === 'slider' ) {
+
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('>a,>span').bind('click.' + ns, function(){
+
+          // Navigate forth ->
+          if( $(this).parent('li').hasClass('collapsed') ) {
+            $(this).siblings('ul').css('position', 'relative').animate({'left': 0});
+            // Hide all navlinks which have not been clicked.
+            $(this).parent('li').siblings('li').hide();
+            // Navigate back <-
+          } else {
+            $(this).siblings('ul').animate({'left': data['navWidth'] * -1}, function() {
+              $(this).parent('li').siblings('li').show();
+              $(this).css('position', 'absolute');
+            });
+          }
+
+          $(this).parent('li').toggleClass('collapsed', 'expanded');
+
+          // Disables anchor functionality.
+          return false;
+        });
+
+        $this.find('ul').css( data.ulStyle );
+        $this.find('.hasSub > ul').css({'position': 'absolute', 'left' : data['navWidth'] * -1});
       }
       
-      // NECESSARY SETTINGS
+      // Necessary styles
       $this.find('li a').css( data.liAStyle );
       
       return true;
@@ -162,7 +205,7 @@ var ns = 'wipnav'; // Namespace
     */
     killMobNav : function( ) {
       var $this = $(this),
-          data = $this.data(ns);
+      data = $this.data(ns);
       
       // REMOVE navButton logic
       if ( !($(data.settings['navButton']) == null) ) {
@@ -176,8 +219,8 @@ var ns = 'wipnav'; // Namespace
         $this.find('li').css( clearValues(data.liStyle) ).has('ul').removeClass('hasSub collapsed expanded').find('>a').unbind('click.' + ns);
       }
       
-      // REMOVE TODO: SLIDING
-      if ( data.settings['type'] === 'sliding' ) {
+      // REMOVE TYPE: SLIDER
+      if ( data.settings['type'] === 'slider' ) {
       }
       
       // REMOVE NECESSARY SETTINGS
@@ -191,10 +234,10 @@ var ns = 'wipnav'; // Namespace
     *
     */
     destroy : function( ) {
-      
+
       return this.each(function( ){   
         var $this = $(this),
-            data = $this.data(ns);
+        data = $this.data(ns);
         
         $(window).unbind('.' + ns);
         data.wipnav.remove();
