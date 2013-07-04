@@ -9,8 +9,8 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 ----------
 
 
-<ul>
-	<li>
+	<ul>
+		<li>
 			<a href="https://github.com/Wipster/wipnav">Some link</a>
 		</li>
 		<li>
@@ -32,7 +32,7 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 
 
 
-(function( $ ) {
+	(function( $ ) {
 
 	// Superfish example configuration
 	superfishOptions = {
@@ -52,7 +52,7 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 		threshold : 1023
 	});
 
-})( jQuery );
+	})( jQuery );
 
 
 
