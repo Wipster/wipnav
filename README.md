@@ -30,9 +30,7 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
  	</ul>
 
 
-<pre>
-<code>
-<script>
+
 
 (function( $ ) {
 
@@ -56,9 +54,6 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 
 })( jQuery );
 
-</script>
-</code>
-</pre>
 
 
 2. Options
