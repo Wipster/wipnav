@@ -8,7 +8,6 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 1. Example
 ==
 
-<code>
 -----------------------------------------------------------------------------------------------------
 <div id="navigation_wrap">
 	<ul>
@@ -32,7 +31,6 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
  	</ul>
 </div>
 ------------------------------------------------------------------------------------------------------
-</code>
 
 <code>
 <script>
