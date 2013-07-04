@@ -1,20 +1,19 @@
 wipnav
 ======
 
-/**
-* Wipnav - jQuery Plugin
-* Responsive Navigation
-*
-* Copyright (c) 2013 Florian Fassing
-* 
-* @author Florian Fassing
-* @version 0.0.10 (03.07.13)
-* 
-* Requires: jQuery v1.4.3+
-*
-* Licensed under Creative Commons Attribution-NonCommercial 3.0:
-*   http://creativecommons.org/licenses/by-nc/3.0/legalcode
-*/
+Wipnav - jQuery Plugin
+Responsive Navigation
+
+Copyright (c) 2013 Florian Fassing
+
+@author Florian Fassing
+@version 0.0.10 (03.07.13)
+
+Requires: jQuery v1.4.3+
+
+Licensed under Creative Commons Attribution-NonCommercial 3.0:
+http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
 
 
 
