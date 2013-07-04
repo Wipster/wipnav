@@ -10,7 +10,7 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 
 <pre>
 	<code>
-
+"
 <ul>
 	<li>
 			<a href="https://github.com/Wipster/wipnav">Some link</a>
@@ -30,7 +30,7 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 			<a href="https://github.com/Wipster/wipnav">Some other link</a>
 		</li>
  	</ul>
-
+"
 	</code>
 </pre>
 
