@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.10 (03.07.13)
+* @version 0.0.13 (03.07.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -113,9 +113,6 @@ var ns = 'wipnav'; // Namespace
       var $this = $(this),
       data = $this.data(ns);
       
-      // call supersubs first, then superfish, so that subs are 
-      // not display:none when measuring. Call before initialising 
-      // containing tabs for same reason.
       $this.superfish( data.settings['sufiSettings'] );
     },
     
@@ -154,7 +151,7 @@ var ns = 'wipnav'; // Namespace
       // TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('>a').bind('click.' + ns, function(){
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('>a,>span').bind('click.' + ns, function(){
           $this.find('li.expanded').not($(this).parent('li')).toggleClass('collapsed expanded').find('>ul').slideToggle();
           $(this).parent('li').toggleClass('collapsed expanded');
           $(this).siblings('ul').slideToggle();
@@ -172,18 +169,22 @@ var ns = 'wipnav'; // Namespace
 
           // Navigate forth ->
           if( $(this).parent('li').hasClass('collapsed') ) {
-            $(this).siblings('ul').css('position', 'relative').animate({'left': 0});
+            // show() needs to be called because superfish makes the submenu ul display: none.
+            // TODO: Remove when removing superfish.
+            $(this).siblings('ul').show().css('position', 'relative').animate({'left': 0});
             // Hide all navlinks which have not been clicked.
             $(this).parent('li').siblings('li').hide();
+            $(this).parents('ul:first').siblings('a, span').hide();
             // Navigate back <-
           } else {
             $(this).siblings('ul').animate({'left': data['navWidth'] * -1}, function() {
               $(this).parent('li').siblings('li').show();
+              $(this).parents('ul:first').siblings('a, span').show();
               $(this).css('position', 'absolute');
             });
           }
 
-          $(this).parent('li').toggleClass('collapsed', 'expanded');
+          $(this).parent('li').toggleClass('collapsed expanded');
 
           // Disables anchor functionality.
           return false;
@@ -216,11 +217,13 @@ var ns = 'wipnav'; // Namespace
       // REMOVE TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
         $this.find('ul').css( clearValues(data.ulStyle) );
-        $this.find('li').css( clearValues(data.liStyle) ).has('ul').removeClass('hasSub collapsed expanded').find('>a').unbind('click.' + ns);
+        $this.find('li').css( clearValues(data.liStyle) ).has('ul').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns);
       }
       
       // REMOVE TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
+        $this.find('ul').css( clearValues(data.ulStyle) ).css({ 'position' : '', 'left' : ''});
+        $this.find('li').css( clearValues(data.liStyle) ).css({'display' : ''}).has('ul').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns).css('display', '');
       }
       
       // REMOVE NECESSARY SETTINGS
