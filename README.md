@@ -1,16 +1,32 @@
 wipnav
 ======
 
-Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish navigation)
+Wipnav - jQuery Plugin
+Responsive Navigation
+
+Copyright (c) 2013 Florian Fassing
+
+@author Florian Fassing
+@version 0.0.10 (03.07.13)
+
+Requires: jQuery v1.4.3+
+
+Licensed under Creative Commons Attribution-NonCommercial 3.0:
+http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
 
 
 
 1. Example
-==
+----------
 
+
+<<<<<<< HEAD
 <code>
 -----------------------------------------------------------------------------------------
 <div id="navigation_wrap">
+=======
+>>>>>>> f545e4a740034a6b754d0596334866d2fb704f7e
 	<ul>
 		<li>
 			<a href="https://github.com/Wipster/wipnav">Some link</a>
@@ -30,14 +46,17 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 			<a href="https://github.com/Wipster/wipnav">Some other link</a>
 		</li>
  	</ul>
+<<<<<<< HEAD
 </div>
 ------------------------------------------------------------------------------------------
 </code>
+=======
+>>>>>>> f545e4a740034a6b754d0596334866d2fb704f7e
 
-<code>
-<script>
 
-(function( $ ) {
+
+
+	(function( $ ) {
 
 	// Superfish example configuration
 	superfishOptions = {
@@ -57,11 +76,9 @@ Responsive Navigation - jQuery Plugin (Can be used in conjunction with superfish
 		threshold : 1023
 	});
 
-})( jQuery );
+	})( jQuery );
 
-</script>
-</code>
 
 
 2. Options
-==
+----------
