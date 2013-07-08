@@ -21,37 +21,27 @@ http://creativecommons.org/licenses/by-nc/3.0/legalcode
 ----------
 
 
-<<<<<<< HEAD
-<code>
------------------------------------------------------------------------------------------
-<div id="navigation_wrap">
-=======
->>>>>>> f545e4a740034a6b754d0596334866d2fb704f7e
-	<ul>
-		<li>
-			<a href="https://github.com/Wipster/wipnav">Some link</a>
-		</li>
-		<li>
-			<span>More links</span>
-			<ul class="sub">
-				<li>
-					<a href="https://github.com/Wipster/wipnav">Some link</a>
-				</li>
-				<li>
-					<a href="https://github.com/Wipster/wipnav">Some other link</a>
-				</li>
-			</ul>
-		</li>
-		<li>
-			<a href="https://github.com/Wipster/wipnav">Some other link</a>
-		</li>
- 	</ul>
-<<<<<<< HEAD
-</div>
-------------------------------------------------------------------------------------------
-</code>
-=======
->>>>>>> f545e4a740034a6b754d0596334866d2fb704f7e
+	<div id="navigation_wrap">
+		<ul>
+			<li>
+				<a href="https://github.com/Wipster/wipnav">Some link</a>
+			</li>
+			<li>
+				<span>More links</span>
+				<ul class="sub">
+					<li>
+						<a href="https://github.com/Wipster/wipnav">Some link</a>
+					</li>
+					<li>
+						<a href="https://github.com/Wipster/wipnav">Some other link</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="https://github.com/Wipster/wipnav">Some other link</a>
+			</li>
+		</ul>
+	</div>
 
 
 

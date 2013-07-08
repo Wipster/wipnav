@@ -65,6 +65,8 @@ var ns = 'wipnav'; // Namespace
           *  Initializes and kills mobile navigation if necessary.
           *
           */
+          $(settings['navButton']).hide();
+          
           $(window).bind('resize.' + ns, function(){
             if ( $(window).width() <= settings['threshold'] ) {
 
@@ -91,7 +93,7 @@ var ns = 'wipnav'; // Namespace
                 if ( settings['sufi'] === true ) {
                   methods.initSF.apply($this);
                 }
-              }    
+              }  
             }
           });
           
