@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.14 (03.07.13)
+* @version 0.0.15 (03.07.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -124,8 +124,7 @@ var ns = 'wipnav'; // Namespace
       var $this = $(this),
       data = $this.data(ns);
       
-      $this.removeClass('sf-js-enabled');
-      $this.find('li').off('mouseover').off('mouseout').off('hover');
+      $this.superfish('destroy');
     },
     
     /*
