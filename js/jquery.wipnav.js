@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.15 (03.07.13)
+* @version 0.0.17 (05.08.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -65,7 +65,7 @@ var ns = 'wipnav'; // Namespace
           *  Initializes and kills mobile navigation if necessary.
           *
           */
-          $(window).bind('resize.' + ns, function(){
+          $(window).bind('resize.' + ns, function(event){
             if ( $(window).width() <= settings['threshold'] ) {
 
               data['navWidth'] = $(this).outerWidth(true);
@@ -91,7 +91,7 @@ var ns = 'wipnav'; // Namespace
                 if ( settings['sufi'] === true ) {
                   methods.initSF.apply($this);
                 }
-              }  
+              }
             }
           });
           
@@ -150,7 +150,7 @@ var ns = 'wipnav'; // Namespace
       // TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('>a,>span').bind('click.' + ns, function(){
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child,span:first-child').bind('click.' + ns, function(){
           $this.find('li.expanded').not($(this).parent('li')).toggleClass('collapsed expanded').find('>ul').slideToggle();
           $(this).parent('li').toggleClass('collapsed expanded');
           $(this).siblings('ul').slideToggle();
@@ -164,7 +164,7 @@ var ns = 'wipnav'; // Namespace
       // TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('>a,>span').bind('click.' + ns, function(){
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child,span:first-child').bind('click.' + ns, function(){
 
           // Navigate forth ->
           if( $(this).parent('li').hasClass('collapsed') ) {
@@ -215,14 +215,14 @@ var ns = 'wipnav'; // Namespace
       
       // REMOVE TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
-        $this.find('ul').css( clearValues(data.ulStyle) );
-        $this.find('li').css( clearValues(data.liStyle) ).has('ul').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns);
+        $this.find('ul').removeAttr('style');
+        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns);
       }
       
       // REMOVE TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
-        $this.find('ul').css( clearValues(data.ulStyle) ).css({ 'position' : '', 'left' : ''});
-        $this.find('li').css( clearValues(data.liStyle) ).css({'display' : ''}).has('ul').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns).css('display', '');
+        $this.find('ul').removeAttr('style');
+        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns);
       }
       
       // REMOVE NECESSARY SETTINGS
