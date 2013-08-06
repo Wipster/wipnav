@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.17 (05.08.13)
+* @version 0.0.25 (06.08.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -134,15 +134,15 @@ var ns = 'wipnav'; // Namespace
     */
     initMobNav : function( ) {
       var $this = $(this),
-      data = $this.data(ns);
+          data = $this.data(ns);
       
       // navButton logic
       if ( !($(data.settings['navButton']) == null) ) {
         // Hide menu initially
         $this.hide();
         $(data.settings['navButton']).removeClass('expanded').addClass('collapsed');
-        $(data.settings['navButton']).bind('click.' + ns, function(){
-          $(this).toggleClass('collapsed expanded')
+        $(data.settings['navButton']).bind('click.' + ns, function() {
+          $(this).toggleClass('collapsed expanded');
           $this.animate(data.settings['navAnim']);
         });
       }
@@ -150,9 +150,9 @@ var ns = 'wipnav'; // Namespace
       // TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child,span:first-child').bind('click.' + ns, function(){
-          $this.find('li.expanded').not($(this).parent('li')).toggleClass('collapsed expanded').find('>ul').slideToggle();
-          $(this).parent('li').toggleClass('collapsed expanded');
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child, span:first-child').bind('click.' + ns, function() {
+          $this.find('li.expanded').not($(this).parents('li.hasSub')).toggleClass('collapsed expanded').find('ul:first').slideUp();
+          $(this).parents('li.hasSub').toggleClass('collapsed expanded');
           $(this).siblings('ul').slideToggle();
           // Disables anchor functionality.
           return false;
@@ -164,20 +164,20 @@ var ns = 'wipnav'; // Namespace
       // TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child,span:first-child').bind('click.' + ns, function(){
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child, span:first-child').bind('click.' + ns, function() {
 
           // Navigate forth ->
-          if( $(this).parent('li').hasClass('collapsed') ) {
+          if( $(this).parents('li.hasSub').hasClass('collapsed') ) {
             // show() needs to be called because superfish makes the submenu ul display: none.
             // TODO: Remove when removing superfish.
             $(this).siblings('ul').show().css('position', 'relative').animate({'left': 0});
             // Hide all navlinks which have not been clicked.
-            $(this).parent('li').siblings('li').hide();
+            $(this).parents('li.hasSub').siblings('li').hide();
             $(this).parents('ul:first').siblings('a, span').hide();
             // Navigate back <-
           } else {
             $(this).siblings('ul').animate({'left': data['navWidth'] * -1}, function() {
-              $(this).parent('li').siblings('li').show();
+              $(this).parents('li.hasSub').siblings('li').show();
               $(this).parents('ul:first').siblings('a, span').show();
               $(this).css('position', 'absolute');
             });
@@ -216,17 +216,17 @@ var ns = 'wipnav'; // Namespace
       // REMOVE TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
         $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns);
+        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('a:first-child,span:first-child').unbind('click.' + ns);
       }
       
       // REMOVE TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
         $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('>a,>span').unbind('click.' + ns);
+        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('a:first-child,span:first-child').unbind('click.' + ns);
       }
       
       // REMOVE NECESSARY SETTINGS
-      $this.find('li a').css( clearValues(data.liAStyle) );
+      $this.find('li a').removeAttr('style');
       
       return false;
     },
@@ -265,14 +265,5 @@ var ns = 'wipnav'; // Namespace
     }   
   };
   
-  function clearValues( obj ) {
-    var tmpObj = new Object();
-    
-    $.each( obj, function( key, val ) {
-      tmpObj[ key ] = '';
-    });
-    
-    return tmpObj;
-  }
 })( jQuery );
 
