@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.26 (06.08.13)
+* @version 0.0.27 (06.08.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -150,12 +150,12 @@ var ns = 'wipnav'; // Namespace
       // TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function() {
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
+          // Disables anchor functionality.
+          event.preventDefault();
           $this.find('li.expanded').not($(this).parents('li.hasSub')).toggleClass('collapsed expanded').find('ul:first').slideUp();
           $(this).parents('li.hasSub').toggleClass('collapsed expanded');
           $(this).siblings('ul').slideToggle();
-          // Disables anchor functionality.
-          return false;
         });
 
         $this.find('ul').css( data.ulStyle );
@@ -164,8 +164,9 @@ var ns = 'wipnav'; // Namespace
       // TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function() {
-
+        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
+          // Disables anchor functionality.
+          event.preventDefault();
           // Navigate forth ->
           if( $(this).parents('li.hasSub').hasClass('collapsed') ) {
             // show() needs to be called because superfish makes the submenu ul display: none.
