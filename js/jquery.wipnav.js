@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.27 (06.08.13)
+* @version 0.0.28 (06.08.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -217,13 +217,13 @@ var ns = 'wipnav'; // Namespace
       // REMOVE TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
         $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('a:first-child,span:first-child').unbind('click.' + ns);
+        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('a:first-child:first,span:first-child:first').unbind('click.' + ns);
       }
       
       // REMOVE TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
         $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('a:first-child,span:first-child').unbind('click.' + ns);
+        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('a:first-child:first,span:first-child:first').unbind('click.' + ns);
       }
       
       // REMOVE NECESSARY SETTINGS
