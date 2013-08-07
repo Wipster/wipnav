@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.28 (06.08.13)
+* @version 0.0.30 (07.08.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -30,7 +30,6 @@ var ns = 'wipnav'; // Namespace
       var settings = $.extend({
         'sufi'          : false,             // Use wipnav in conjunction with superfish?
         'sufiSettings'  : null,              // If used with superfish the settings are needed for restarting the superfish navigation.
-        /*'subIndent'   : 0,*/               // Indention for links on lower levels.
         'linkScaleUp'   : '',                // Scale mobile links up. Padding in px.
         'type'          : 'accordion',       // Determines the type of the mobile navigation.
         'threshold'     : 980,               // Wipnav gets activated when page-width is equal or under threshold.
@@ -175,23 +174,26 @@ var ns = 'wipnav'; // Namespace
             // Hide all navlinks which have not been clicked.
             $(this).parents('li.hasSub').siblings('li').hide();
             $(this).parents('ul:first').siblings('a, span').hide();
+            $(this).parents('li.hasSub').toggleClass('collapsed expanded');
             // Navigate back <-
           } else {
             $(this).siblings('ul').animate({'left': data['navWidth'] * -1}, function() {
               $(this).parents('li.hasSub').siblings('li').show();
               $(this).parents('ul:first').siblings('a, span').show();
               $(this).css('position', 'absolute');
+              $(this).parents('li.hasSub').toggleClass('collapsed expanded');
             });
           }
 
-          $(this).parent('li').toggleClass('collapsed expanded');
-
-          // Disables anchor functionality.
-          return false;
+          
         });
 
         $this.find('ul').css( data.ulStyle );
         $this.find('.hasSub > ul').css({'position': 'absolute', 'left' : data['navWidth'] * -1});
+
+        $(window).resize(function() {
+          $this.find('.hasSub.collapsed > ul').css('left' , data['navWidth'] * -1);
+        });
       }
       
       // Necessary styles
@@ -217,13 +219,13 @@ var ns = 'wipnav'; // Namespace
       // REMOVE TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
         $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('a:first-child:first,span:first-child:first').unbind('click.' + ns);
+        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('a:first-child:first, span:first-child:first').unbind('.' + ns);
       }
       
       // REMOVE TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
         $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('a:first-child:first,span:first-child:first').unbind('click.' + ns);
+        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('a:first-child:first, span:first-child:first').unbind('.' + ns);
       }
       
       // REMOVE NECESSARY SETTINGS
