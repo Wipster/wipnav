@@ -5,7 +5,7 @@
 * Copyright (c) 2013 Florian Fassing
 * 
 * @author Florian Fassing
-* @version 0.0.30 (07.08.13)
+* @version 0.1.0 (06.09.13)
 * 
 * Requires: jQuery v1.4.3+
 *
@@ -30,7 +30,6 @@ var ns = 'wipnav'; // Namespace
       var settings = $.extend({
         'sufi'          : false,             // Use wipnav in conjunction with superfish?
         'sufiSettings'  : null,              // If used with superfish the settings are needed for restarting the superfish navigation.
-        'linkScaleUp'   : '',                // Scale mobile links up. Padding in px.
         'type'          : 'accordion',       // Determines the type of the mobile navigation.
         'threshold'     : 980,               // Wipnav gets activated when page-width is equal or under threshold.
         'navButton'     : null,              // The selector for an optional button to hide and display the whole navigation.
@@ -51,10 +50,7 @@ var ns = 'wipnav'; // Namespace
           $this.data(ns, {
             mobNavAct : false,
             navWidth  : 0,
-            settings  : settings,
-            ulStyle   : { 'width' : '100%', 'padding-left' : '0', 'padding-right' : '0', 'visibility' : 'visible', 'position' : 'relative' },
-            liAStyle  : { 'height' : 'auto', 'display' : 'block', 'width' : 'auto', 'padding-top' : settings['linkScaleUp'], 'padding-bottom' : settings['linkScaleUp'] },
-            liStyle   : { 'width' : '100%', 'float' : 'none' }
+            settings  : settings
           });
           data = $this.data(ns);
           
@@ -105,8 +101,6 @@ var ns = 'wipnav'; // Namespace
     /*
     * Enables the superfish Menu
     *
-    * @param selector Selector of the container in which the superfish <ul> tag is nested.
-    *
     */
     initSF : function( ) {
       var $this = $(this),
@@ -128,10 +122,10 @@ var ns = 'wipnav'; // Namespace
     
     /*
     * Enables the mobile navigation.
-    * @param this The DOM object on which the wipnav got intialized.
     *
     */
     initMobNav : function( ) {
+      // $this The DOM object on which the wipnav got intialized.
       var $this = $(this),
           data = $this.data(ns);
       
@@ -149,21 +143,19 @@ var ns = 'wipnav'; // Namespace
       // TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
+        $this.find('li').has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
           // Disables anchor functionality.
           event.preventDefault();
           $this.find('li.expanded').not($(this).parents('li.hasSub')).toggleClass('collapsed expanded').find('ul:first').slideUp();
           $(this).parents('li.hasSub').toggleClass('collapsed expanded');
           $(this).siblings('ul').slideToggle();
         });
-
-        $this.find('ul').css( data.ulStyle );
       }
       
       // TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
 
-        $this.find('li').css( data.liStyle ).has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
+        $this.find('li').has('ul').addClass('hasSub collapsed').find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
           // Disables anchor functionality.
           event.preventDefault();
           // Navigate forth ->
@@ -188,16 +180,12 @@ var ns = 'wipnav'; // Namespace
           
         });
 
-        $this.find('ul').css( data.ulStyle );
         $this.find('.hasSub > ul').css({'position': 'absolute', 'left' : data['navWidth'] * -1});
 
         $(window).resize(function() {
           $this.find('.hasSub.collapsed > ul').css('left' , data['navWidth'] * -1);
         });
       }
-      
-      // Necessary styles
-      $this.find('li a').css( data.liAStyle );
       
       return true;
     },
@@ -218,18 +206,13 @@ var ns = 'wipnav'; // Namespace
       
       // REMOVE TYPE: ACCORDION
       if ( data.settings['type'] === 'accordion' ) {
-        $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').removeClass('hasSub collapsed expanded').find('a:first-child:first, span:first-child:first').unbind('.' + ns);
+        $this.find('li').removeClass('hasSub collapsed expanded').find('a:first-child:first, span:first-child:first').unbind('.' + ns);
       }
       
       // REMOVE TYPE: SLIDER
       if ( data.settings['type'] === 'slider' ) {
-        $this.find('ul').removeAttr('style');
-        $this.find('li').removeAttr('style').has('ul').removeClass('hasSub collapsed expanded').find('a:first-child:first, span:first-child:first').unbind('.' + ns);
+        $this.find('li').has('ul').removeClass('hasSub collapsed expanded').find('a:first-child:first, span:first-child:first').unbind('.' + ns);
       }
-      
-      // REMOVE NECESSARY SETTINGS
-      $this.find('li a').removeAttr('style');
       
       return false;
     },

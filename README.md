@@ -7,7 +7,7 @@ Responsive Navigation
 Copyright (c) 2013 Florian Fassing
 
 @author Florian Fassing
-@version 0.0.10 (03.07.13)
+@version @version 0.0.30 (07.08.13)
 
 Requires: jQuery v1.4.3+
 
@@ -21,7 +21,7 @@ http://creativecommons.org/licenses/by-nc/3.0/legalcode
 ----------
 
 
-	<div id="navigation_wrap">
+	<div id="nav-wrap">
 		<ul>
 			<li>
 				<a href="https://github.com/Wipster/wipnav">Some link</a>
@@ -70,5 +70,20 @@ http://creativecommons.org/licenses/by-nc/3.0/legalcode
 
 
 
-2. Options
+2. Options with default values
+------------------------------
+
+    'sufi'          : false,             // Use wipnav in conjunction with superfish?
+    'sufiSettings'  : null,              // If used with superfish the settings are needed for restarting the superfish navigation at certain pagewidth.
+    'type'          : 'accordion',       // Determines the type of the mobile navigation. 'accordion' and 'slider' are available.
+    'threshold'     : 980,               // Wipnav gets activated when page-width is equal or under threshold.
+    'navButton'     : null,              // The selector for an optional button to hide and display the whole navigation.
+    'navAnim'       : {height: 'toggle'} // Animation when navigation is toggled via the trigger specified in navButton.
+
+
+3. Roadmap
 ----------
+
+	- Remove superfish usage and provide simple standalone desktop navigation with css fallback.
+
+
