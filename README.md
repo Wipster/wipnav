@@ -7,7 +7,12 @@ Responsive Navigation
 Copyright (c) 2013 Florian Fassing
 
 @author Florian Fassing
+<<<<<<< HEAD
 @version @version 0.0.30 (07.08.13)
+=======
+
+@version 0.0.30 (07.08.13)
+>>>>>>> 554a14a45f5029a8a7b5a29026c3ac49d3d96cde
 
 Requires: jQuery v1.4.3+
 
