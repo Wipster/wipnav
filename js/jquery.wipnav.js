@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Florian Fassing
  * 
  * @author Florian Fassing
- * @version 0.1.2 (09.09.13)
+ * @version 0.1.3 (09.09.13)
  * 
  * Requires: jQuery v1.4.3+
  *
@@ -137,13 +137,17 @@ var ns = 'wipnav'; // Namespace
                 $this.hide();
 
                 var navButton = $(data.settings['navButton']);
+                var toggleControl = false;
                 navButton.removeClass(expClass).addClass(colClass);
                 navButton.bind('click.' + ns, function() {
                     if (navButton.hasClass(colClass)) {
                         navButton.toggleClass(toggleClass);
                     }
                     $this.animate(data.settings['navAnim'], function() {
-                        navButton.toggleClass(toggleClass);
+                        if (navButton.hasClass(expClass) && toggleControl) {
+                            navButton.toggleClass(toggleClass);
+                        }
+                        toggleControl = !toggleControl;
                     });
                 });
             }
