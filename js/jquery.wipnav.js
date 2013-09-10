@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Florian Fassing
  * 
  * @author Florian Fassing
- * @version 0.1.3 (09.09.13)
+ * @version 0.1.5 (10.09.13)
  * 
  * Requires: jQuery v1.4.3+
  *
@@ -41,7 +41,7 @@ var ns = 'wipnav'; // Namespace
             return this.each(function() {
 
                 var $this = $(this),
-                        data = $this.data(ns);
+                    data = $this.data(ns);
 
                 // If the plugin hasn't been initialized yet
                 if (settings['sufi'] && settings['sufiSettings'] == null) {
@@ -132,8 +132,9 @@ var ns = 'wipnav'; // Namespace
                 toggleClass = colClass + ' ' + expClass;
 
             // navButton logic
-            if (!($(data.settings['navButton']) == null)) {
-                // Hide menu initially
+            if ( !($(data.settings['navButton']) == null) ) {
+
+                // Hide menu initially.
                 $this.hide();
 
                 var navButton = $(data.settings['navButton']);
@@ -152,52 +153,51 @@ var ns = 'wipnav'; // Namespace
                 });
             }
 
-            // TYPE: ACCORDION
-            if (data.settings['type'] === 'accordion') {
+            // Find submenu containing li elements and mark them with a class. Find the first a or span element and bind a click event to them.
+            $this.find('li').has('ul').addClass('hasSub ' + colClass).find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
 
-                $this.find('li').has('ul').addClass('hasSub ' + colClass).find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
-                    // Disables anchor functionality.
-                    event.preventDefault();
+                // Disables anchor functionality.
+                event.preventDefault();
+                var clicked = $(this);
+
+
+                // TYPE: ACCORDION
+                if ( data.settings['type'] === 'accordion' ) {
+                    // Close all currently open menu entries.
                     $this.find('li.' + expClass).not($(this).parents('li.hasSub')).toggleClass(toggleClass).find('ul:first').slideUp();
-                    $(this).parents('li.hasSub').toggleClass(toggleClass);
-                    $(this).siblings('ul').slideToggle();
-                });
-            }
-
-            // TYPE: SLIDER
-            if (data.settings['type'] === 'slider') {
-
-                $this.find('li').has('ul').addClass('hasSub ' + colClass).find('a:first-child:first, span:first-child:first').bind('click.' + ns, function(event) {
-                    // Disables anchor functionality.
-                    event.preventDefault();
+                    // Toggle class of the submenu containing li element.
+                    clicked.parents('li.hasSub').toggleClass(toggleClass);
+                    // Open the submenu.
+                    clicked.siblings('ul').slideToggle();
+                }
+                // TYPE: SLIDER
+                else if ( data.settings['type'] === 'slider' ) {
                     // Navigate forth ->
-                    if ($(this).parents('li.hasSub').hasClass(colClass)) {
-                        // show() needs to be called because superfish makes the submenu ul display: none.
-                        // TODO: Remove when removing superfish.
-                        $(this).siblings('ul').show().css('position', 'relative').animate({'left': 0});
-                        // Hide all navlinks which have not been clicked.
-                        $(this).parents('li.hasSub').siblings('li').hide();
-                        $(this).parents('ul:first').siblings('a, span').hide();
-                        $(this).parents('li.hasSub').toggleClass(toggleClass);
+                    if ( clicked.parents('li.hasSub').hasClass(colClass) ) {
+
+                        // Move menu to the right, out of the viewport.
+                        clicked.parents('ul:first').css({'position':'relative', 'left':'auto'}).animate({'right':data['navWidth'] * -1}, function() {
+                            // Hide all menu entries which have not been clicked.
+                            clicked.parents('li.hasSub').siblings('li').hide();
+                            clicked.parents('ul:first').css({'right':'auto', 'left':data['navWidth'] * -1}).add(clicked.siblings('ul').show()).animate({'left':0});
+                        });
+
+                        clicked.parents('li.hasSub').toggleClass(toggleClass);
                         // Navigate back <-
                     } else {
-                        $(this).siblings('ul').animate({'left': data['navWidth'] * -1}, function() {
-                            $(this).parents('li.hasSub').siblings('li').show();
-                            $(this).parents('ul:first').siblings('a, span').show();
-                            $(this).css('position', 'absolute');
-                            $(this).parents('li.hasSub').toggleClass(toggleClass);
+                        
+                        clicked.parents('ul:first').animate({'left':data['navWidth'] * -1}, function() {
+                            // Hide the submenu after it was shifted out of the viewport.
+                            clicked.siblings('ul').hide();
+                            // Let the menu entries which have not been clicked reappear.
+                            clicked.parents('li.hasSub').siblings('li').show();
+                            // Put the menu to the right and let it slide into the viewport.
+                            clicked.parents('ul:first').css({'right':data['navWidth'] * -1, 'left':'auto'}).animate({'right':0});
                         });
+                        clicked.parents('li.hasSub').toggleClass(toggleClass);
                     }
-
-
-                });
-
-                $this.find('.hasSub > ul').css({'position': 'absolute', 'left': data['navWidth'] * -1});
-
-                $(window).resize(function() {
-                    $this.find('.hasSub.' + colClass + ' > ul').css('left', data['navWidth'] * -1);
-                });
-            }
+                }
+            });
 
             return true;
         },
