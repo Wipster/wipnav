@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Florian Fassing
  * 
  * @author Florian Fassing
- * @version 0.1.5 (10.09.13)
+ * @version 0.1.6 (10.09.13)
  * 
  * Requires: jQuery v1.4.3+
  *
@@ -160,7 +160,6 @@ var ns = 'wipnav'; // Namespace
                 event.preventDefault();
                 var clicked = $(this);
 
-
                 // TYPE: ACCORDION
                 if ( data.settings['type'] === 'accordion' ) {
                     // Close all currently open menu entries.
@@ -171,30 +170,36 @@ var ns = 'wipnav'; // Namespace
                     clicked.siblings('ul').slideToggle();
                 }
                 // TYPE: SLIDER
-                else if ( data.settings['type'] === 'slider' ) {
+                else {
                     // Navigate forth ->
                     if ( clicked.parents('li.hasSub').hasClass(colClass) ) {
 
-                        // Move menu to the right, out of the viewport.
-                        clicked.parents('ul:first').css({'position':'relative', 'left':'auto'}).animate({'right':data['navWidth'] * -1}, function() {
-                            // Hide all menu entries which have not been clicked.
-                            clicked.parents('li.hasSub').siblings('li').hide();
-                            clicked.parents('ul:first').css({'right':'auto', 'left':data['navWidth'] * -1}).add(clicked.siblings('ul').show()).animate({'left':0});
-                        });
+                        clicked.parents('li.hasSub:first').toggleClass(toggleClass);
 
-                        clicked.parents('li.hasSub').toggleClass(toggleClass);
+                        // Part of the menu that is going to slide.
+                        menuPart = clicked.parents('ul:first').add($('.' + expClass).parents('ul:first'));
+
+                        // Move menu to the right, out of the viewport.
+                        menuPart.css({'position':'relative', 'left':'auto'}).animate({'right':data['navWidth'] * -1}, function() {
+                            // Hide all menu entries which have not been clicked.
+                            clicked.parents('li.hasSub:first').siblings('li').hide();
+                            // Put the menu to the left and it slide into the viewport.
+                            menuPart.css({'right':'auto', 'left':data['navWidth'] * -1}).add(clicked.siblings('ul').show()).animate({'left':0});
+                         });
+
                         // Navigate back <-
                     } else {
                         
+                        // Let the menu slide out of the viewport.
                         clicked.parents('ul:first').animate({'left':data['navWidth'] * -1}, function() {
                             // Hide the submenu after it was shifted out of the viewport.
                             clicked.siblings('ul').hide();
                             // Let the menu entries which have not been clicked reappear.
-                            clicked.parents('li.hasSub').siblings('li').show();
+                            clicked.parents('li.hasSub:first').siblings('li').show();
                             // Put the menu to the right and let it slide into the viewport.
                             clicked.parents('ul:first').css({'right':data['navWidth'] * -1, 'left':'auto'}).animate({'right':0});
                         });
-                        clicked.parents('li.hasSub').toggleClass(toggleClass);
+                        clicked.parents('li.hasSub:first').toggleClass(toggleClass);
                     }
                 }
             });
