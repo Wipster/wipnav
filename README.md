@@ -8,7 +8,7 @@ Copyright (c) 2013 Florian Fassing
 
 @author Florian Fassing
 
-@version 0.1.5 (10.09.13)
+@version 0.1.7 (10-SEP-13)
 
 Requires: jQuery v1.4.3+
 
@@ -40,6 +40,7 @@ Wipnav package has an example folder.
 3. Roadmap
 ----------
 
-	- Remove superfish usage and provide simple standalone desktop navigation with css fallback.
+	1. Remove superfish usage and provide simple standalone desktop navigation with css fallback.
+	2. Provide easy to understand and different usage examples.
 
 

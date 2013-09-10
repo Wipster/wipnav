@@ -5,7 +5,7 @@
  * Copyright (c) 2013 Florian Fassing
  * 
  * @author Florian Fassing
- * @version 0.1.6 (10.09.13)
+ * @version 0.1.7 (10-SEP-13)
  * 
  * Requires: jQuery v1.4.3+
  *
@@ -181,6 +181,8 @@ var ns = 'wipnav'; // Namespace
 
                         // Move menu to the right, out of the viewport.
                         menuPart.css({'position':'relative', 'left':'auto'}).animate({'right':data['navWidth'] * -1}, function() {
+                            // Hide the last opened menu entry.
+                            clicked.parents('.' + expClass).eq(1).find('> span:first, > a:first').hide();
                             // Hide all menu entries which have not been clicked.
                             clicked.parents('li.hasSub:first').siblings('li').hide();
                             // Put the menu to the left and it slide into the viewport.
@@ -191,15 +193,18 @@ var ns = 'wipnav'; // Namespace
                     } else {
                         
                         // Let the menu slide out of the viewport.
-                        clicked.parents('ul:first').animate({'left':data['navWidth'] * -1}, function() {
+                        menuPart.css({'right':'auto'}).animate({'left':data['navWidth'] * -1}, function() {
+                            // Let the last opened menu entry reappear.
+                            clicked.parents('.' + expClass).eq(1).find('> span:first, > a:first').show();
                             // Hide the submenu after it was shifted out of the viewport.
                             clicked.siblings('ul').hide();
                             // Let the menu entries which have not been clicked reappear.
                             clicked.parents('li.hasSub:first').siblings('li').show();
                             // Put the menu to the right and let it slide into the viewport.
-                            clicked.parents('ul:first').css({'right':data['navWidth'] * -1, 'left':'auto'}).animate({'right':0});
+                            menuPart.css({'right':data['navWidth'] * -1, 'left':'auto'}).animate({'right':0});
+                            // Toggle class in callback so the last opened menu entry can be hidden.
+                            clicked.parents('li.hasSub:first').toggleClass(toggleClass);
                         });
-                        clicked.parents('li.hasSub:first').toggleClass(toggleClass);
                     }
                 }
             });
