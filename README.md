@@ -8,7 +8,7 @@ Copyright (c) 2013 Florian Fassing
 
 @author Florian Fassing
 
-@version 0.1.7 (10-SEP-13)
+@version 0.2.0 (16-SEP-13)
 
 Requires: jQuery v1.4.3+
 
@@ -27,8 +27,6 @@ Wipnav package has an example folder.
 2. Options with default values
 ------------------------------
 
-    'sufi'          : false,             // Use wipnav in conjunction with superfish?
-    'sufiSettings'  : null,              // If used with superfish the settings are needed for restarting the superfish navigation at certain page-width.
     'type'          : 'accordion',       // Determines the animation type of the mobile navigation. 'accordion' and 'slider' are available.
     'threshold'     : 980,               // Wipnav gets activated when page-width is equal or under threshold.
     'navButton'     : null,              // The selector for an optional button to hide and display the whole navigation.
@@ -40,7 +38,6 @@ Wipnav package has an example folder.
 3. Roadmap
 ----------
 
-	1. Remove superfish usage and provide simple standalone desktop navigation with css fallback.
-	2. Provide easy to understand and different usage examples.
+	1. Provide easy to understand and different usage examples.
 
 
