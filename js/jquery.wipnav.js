@@ -5,7 +5,7 @@
      * Copyright (c) 2013 Florian Fassing
      * 
      * @author Florian Fassing
-     * @version 0.2.0 (16-SEP-13)
+     * @version 0.2.2 (19-SEP-13)
      * 
      * Requires: jQuery v1.4.3+
      *
@@ -128,7 +128,8 @@
              */
             killNav: function( ) {
                 var $this = $(this),
-                    data = $this.data(ns);
+                    data = $this.data(ns),
+                    hoverClass = data.settings['hoverClass'];
 
                 $this.find('li').unbind('mouseenter.' + ns).unbind('mouseleave.' + ns).removeClass(hoverClass);
                 /*$this.find('li > ul').unbind('mouseenter.' + ns).unbind('mouseleave.' + ns).removeClass(hoverClass);*/
@@ -153,6 +154,10 @@
                     // Hide menu initially.
                     $this.hide();
 
+                    /* Navbutton logic.
+                    *  The expanded class gets applied immediately when the navbutton was hit.
+                    *  Collapsed class gets applied after navigation completely has collapsed. 
+                    */
                     var navButton = $(data.settings['navButton']);
                     var toggleControl = false;
                     navButton.removeClass(expClass).addClass(colClass);
@@ -196,7 +201,7 @@
                             menuPart = clicked.parents('ul:first').add($('.' + expClass).parents('ul:first'));
 
                             // Move menu to the right, out of the viewport.
-                            menuPart.css({'position':'relative', 'left':'auto'}).animate({'right':data['navWidth'] * -1}, function() {
+                            menuPart.css('left', 'auto').animate({'right':data['navWidth'] * -1}, function() {
                                 // Hide the last opened menu entry.
                                 clicked.parents('.' + expClass).eq(1).find('> span:first, > a:first').hide();
                                 // Hide all menu entries which have not been clicked.
@@ -209,7 +214,7 @@
                         } else {
                             
                             // Let the menu slide out of the viewport.
-                            menuPart.css({'right':'auto'}).animate({'left':data['navWidth'] * -1}, function() {
+                            menuPart.css('right', 'auto').animate({'left':data['navWidth'] * -1}, function() {
                                 // Let the last opened menu entry reappear.
                                 clicked.parents('.' + expClass).eq(1).find('> span:first, > a:first').show();
                                 // Hide the submenu after it was shifted out of the viewport.
