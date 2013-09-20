@@ -18,26 +18,50 @@ http://creativecommons.org/licenses/by-nc/3.0/legalcode
 
 
 
-1. Example
-----------
 
-Wipnav package has an example folder.
+Wipnav is a navigation solution for websites in form of a jQuery plugin. It's fully responsive and gives
+a lot of space for customization. It's small and fast! 
 
+Look at the usage examples in the package.
 
-2. Options with default values
+1. Functionality
 ------------------------------
 
-    'type'          : 'accordion',       // Determines the animation type of the mobile navigation. 'accordion' and 'slider' are available.
-    'threshold'     : 980,               // Wipnav gets activated when page-width is equal or under threshold.
-    'navButton'     : null,              // The selector for an optional button to hide and display the whole navigation.
+    The wipnav plugin uses nested HTML lists as navigation trees.
+
+    My-Website
+    ├── 
+    │   ├── My-First-Point
+    │   │   ├── Interesting content
+    │   │   └── Even more interesting
+    │   ├── My-Second-Point
+    │   │   ├── Following Page
+    │   │   └── Imprint
+
+
+    Hint:
+    You should try to prevent content on the sites "My-First-Point" and "My-Second-Point".
+    It's no problem when viewed on a bigger screen, (hover for submenu -> click for content)
+    but when viewed on a smartphone you have no hover action. A click shows the submenu. A
+    second click could show the content, but I think thats only confusing and not a common or
+    widely spread behaviour.
+
+2. Options (with default values)
+------------------------------
+
+    'type'          : 'accordion'        // Determines the animation type of the mobile navigation. 'accordion' and 'slider' are available.
+    'threshold'     : 980                // Wipnav gets activated when page-width is equal or under threshold.
+    'navButton'     : null               // The selector for an optional button to hide and display the whole navigation.
     'navAnim'       : {height: 'toggle'} // Animation when navigation is toggled via the trigger specified in navButton. Like parameter for jQuerys animate function.
-    'colClass'      : 'collapsed',       // Class used for toggling.
+    'colClass'      : 'collapsed'        // Class used for toggling.
     'expClass'      : 'expanded'         // Class used for toggling.
+    'hoverClass'    : 'wip-hover'        // Class used for hover effects.
 
 
 3. Roadmap
-----------
+------------------------------
 
 	1. Provide easy to understand and different usage examples.
+    2. Split the css for the examples into necessary styles and fancy stuff.
 
 
