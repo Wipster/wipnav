@@ -5,9 +5,9 @@
      * Copyright (c) 2013 Florian Fassing
      * 
      * @author Florian Fassing
-     * @version 0.2.2 (19-SEP-13)
+     * @version 0.2.3 (07-OCT-13)
      * 
-     * Requires: jQuery v1.4.3+
+     * Requires: jQuery v1.7+
      *
      * Licensed under Creative Commons Attribution-NonCommercial 3.0:
      *   http://creativecommons.org/licenses/by-nc/3.0/legalcode
@@ -31,7 +31,9 @@
                     'type': 'accordion', // Determines the type of the mobile navigation.
                     'threshold': 980, // Wipnav gets activated when page-width is equal or under threshold.
                     'navButton': null, // The selector for an optional button to hide and display the whole navigation.
-                    'navAnim': {height: 'toggle'}, // Animation when navigation is toggled via the trigger specified in navButton.
+                    'navAnim': {height: 'toggle'}, // Animation when navigation is toggled via hover. (Parameter for jQuery animate method.)    
+                    'mobNavAnim': {height: 'toggle'}, // Animation when navigation is toggled via the trigger specified in navButton. (Parameter for jQuery animate method.)
+                    'speed' : 250, // Animation speed for hover and click effects.
                     'colClass': 'collapsed', // Class used for toggling.
                     'expClass': 'expanded',  // Class used for toggling.
                     'hoverClass': 'wip-hover' // Class used for hover effects.
@@ -100,7 +102,7 @@
                 });
             },
             /*
-             * Enables the superfish Menu
+             * Enables regular navigation.
              *
              */
             initNav: function( ) {
@@ -110,20 +112,16 @@
 
                 $this.find('li').bind('mouseenter.' + ns, function( ) {
                     $(this).addClass(hoverClass);
+                    $(this).find('ul:first').stop().height('auto').animate(data.settings['mobNavAnim'], data.settings['speed']);
                 }).bind('mouseleave.' + ns, function( ) {
                     $(this).removeClass(hoverClass);
+                    $(this).find('ul:first').stop().animate(data.settings['mobNavAnim'], data.settings['speed']);
                 });
-
-                /*$this.find('li > ul').bind('mouseenter.' + ns, function( ) {
-                    $(this).addClass(hoverClass);
-                }).bind('mouseleave.' + ns, function( ) {
-                    $(this).removeClass(hoverClass);
-                });*/
 
                 return true;
             },
             /*
-             * Disables the superfish Menu
+             * Disables regular navigation.
              *
              */
             killNav: function( ) {
@@ -165,7 +163,7 @@
                         if (navButton.hasClass(colClass)) {
                             navButton.toggleClass(toggleClass);
                         }
-                        $this.animate(data.settings['navAnim'], function() {
+                        $this.animate(data.settings['mobNavAnim'], function() {
                             if (navButton.hasClass(expClass) && toggleControl) {
                                 navButton.toggleClass(toggleClass);
                             }
