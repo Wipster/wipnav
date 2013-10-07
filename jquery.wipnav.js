@@ -5,7 +5,7 @@
      * Copyright (c) 2013 Florian Fassing
      * 
      * @author Florian Fassing
-     * @version 0.2.3 (07-OCT-13)
+     * @version 0.2.4 (07-OCT-13)
      * 
      * Requires: jQuery v1.7+
      *
@@ -112,10 +112,10 @@
 
                 $this.find('li').bind('mouseenter.' + ns, function( ) {
                     $(this).addClass(hoverClass);
-                    $(this).find('ul:first').stop().height('auto').animate(data.settings['mobNavAnim'], data.settings['speed']);
+                    $(this).find('ul:first').stop(true).height('auto').animate(data.settings['mobNavAnim'], data.settings['speed']);
                 }).bind('mouseleave.' + ns, function( ) {
                     $(this).removeClass(hoverClass);
-                    $(this).find('ul:first').stop().animate(data.settings['mobNavAnim'], data.settings['speed']);
+                    $(this).find('ul:first').stop(true).animate(data.settings['mobNavAnim'], data.settings['speed']);
                 });
 
                 return true;
