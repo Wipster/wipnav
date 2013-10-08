@@ -8,7 +8,7 @@ Copyright (c) 2013 Florian Fassing
 
 @author Florian Fassing
 
-@version 0.2.4 (07-OCT-13)
+@version 0.2.5 (08-OCT-13)
 
 Requires: jQuery v1.7+
 
@@ -52,7 +52,10 @@ Look at the usage examples in the package.
     'type'          : 'accordion'        // Determines the animation type of the mobile navigation. 'accordion' and 'slider' are available.
     'threshold'     : 980                // Wipnav gets activated when page-width is equal or under threshold.
     'navButton'     : null               // The selector for an optional button to hide and display the whole navigation.
-    'navAnim'       : {height: 'toggle'} // Animation when navigation is toggled via the trigger specified in navButton. Like parameter for jQuerys animate function.
+    'animIn'        : {height: 'show'}   // Animation when navigation is toggled. (See parameter for jQuery animate method.)
+    'animOut'       : {height: 'hide'}   // Animation when navigation is toggled. (See parameter for jQuery animate method.)
+    'mobNavAnim'    : {height: 'toggle'} // Animation when navigation is toggled via the trigger specified in navButton. (See parameter for jQuery animate method.)
+    'speed'         : 250                // Animation speed for hover and click effects.
     'colClass'      : 'collapsed'        // Class used for toggling.
     'expClass'      : 'expanded'         // Class used for toggling.
     'hoverClass'    : 'wip-hover'        // Class used for hover effects.

@@ -5,7 +5,7 @@
      * Copyright (c) 2013 Florian Fassing
      * 
      * @author Florian Fassing
-     * @version 0.2.4 (07-OCT-13)
+     * @version 0.2.5 (08-OCT-13)
      * 
      * Requires: jQuery v1.7+
      *
@@ -31,7 +31,8 @@
                     'type': 'accordion', // Determines the type of the mobile navigation.
                     'threshold': 980, // Wipnav gets activated when page-width is equal or under threshold.
                     'navButton': null, // The selector for an optional button to hide and display the whole navigation.
-                    'navAnim': {height: 'toggle'}, // Animation when navigation is toggled via hover. (Parameter for jQuery animate method.)    
+                    'animIn': {height: 'show'}, // Animation when navigation is toggled via hover. (Parameter for jQuery animate method.)
+                    'animOut' : {height: 'hide'}, // Animation when navigation is toggled via hover. (Parameter for jQuery animate method.)
                     'mobNavAnim': {height: 'toggle'}, // Animation when navigation is toggled via the trigger specified in navButton. (Parameter for jQuery animate method.)
                     'speed' : 250, // Animation speed for hover and click effects.
                     'colClass': 'collapsed', // Class used for toggling.
@@ -53,7 +54,7 @@
                         $this.data(ns, {
                             mobNavAct: false,
                             navAct: false,
-                            navWidth: 0,
+                            vpWidth: 0,
                             settings: settings
                         });
                         data = $this.data(ns);
@@ -67,7 +68,7 @@
                         $(window).bind('resize.' + ns, function(event) {
                             if ($(window).width() <= settings['threshold']) {
 
-                                data['navWidth'] = $(this).outerWidth(true);
+                                data['vpWidth'] = $(window).width();
 
                                 if (data.navAct === true) {
 
@@ -76,7 +77,6 @@
 
                                 if (data.mobNavAct === false) {
 
-                                    $(settings['navButton']).show();
                                     data.mobNavAct = methods.initMobNav.call($this);
                                 }
                             } else {
@@ -88,7 +88,6 @@
 
                                 if (data.mobNavAct === true) {
 
-                                    $(settings['navButton']).hide();
                                     data.mobNavAct = methods.killMobNav.call($this);
                                 }
                             }
@@ -112,10 +111,10 @@
 
                 $this.find('li').bind('mouseenter.' + ns, function( ) {
                     $(this).addClass(hoverClass);
-                    $(this).find('ul:first').stop(true).height('auto').animate(data.settings['mobNavAnim'], data.settings['speed']);
+                    $(this).find('ul:first').stop(true).height('auto').animate(data.settings['animIn'], data.settings['speed']);
                 }).bind('mouseleave.' + ns, function( ) {
+                    $(this).find('ul:first').stop(true).animate(data.settings['animOut'], data.settings['speed']);
                     $(this).removeClass(hoverClass);
-                    $(this).find('ul:first').stop(true).animate(data.settings['mobNavAnim'], data.settings['speed']);
                 });
 
                 return true;
@@ -130,7 +129,6 @@
                     hoverClass = data.settings['hoverClass'];
 
                 $this.find('li').unbind('mouseenter.' + ns).unbind('mouseleave.' + ns).removeClass(hoverClass);
-                /*$this.find('li > ul').unbind('mouseenter.' + ns).unbind('mouseleave.' + ns).removeClass(hoverClass);*/
 
                 return false;
             },
@@ -156,9 +154,9 @@
                     *  The expanded class gets applied immediately when the navbutton was hit.
                     *  Collapsed class gets applied after navigation completely has collapsed. 
                     */
-                    var navButton = $(data.settings['navButton']);
-                    var toggleControl = false;
-                    navButton.removeClass(expClass).addClass(colClass);
+                    var navButton = $(data.settings['navButton']),
+                        toggleControl = false;
+                    navButton.removeClass(expClass).addClass(colClass).show();
                     navButton.bind('click.' + ns, function() {
                         if (navButton.hasClass(colClass)) {
                             navButton.toggleClass(toggleClass);
@@ -199,20 +197,20 @@
                             menuPart = clicked.parents('ul:first').add($('.' + expClass).parents('ul:first'));
 
                             // Move menu to the right, out of the viewport.
-                            menuPart.css('left', 'auto').animate({'right':data['navWidth'] * -1}, function() {
+                            menuPart.css('left', 'auto').animate({'right':data['vpWidth'] * -1}, function() {
                                 // Hide the last opened menu entry.
                                 clicked.parents('.' + expClass).eq(1).find('> span:first, > a:first').hide();
                                 // Hide all menu entries which have not been clicked.
                                 clicked.parents('li.hasSub:first').siblings('li').hide();
                                 // Put the menu to the left and it slide into the viewport.
-                                menuPart.css({'right':'auto', 'left':data['navWidth'] * -1}).add(clicked.siblings('ul').show()).animate({'left':0});
+                                menuPart.css({'right':'auto', 'left':data['vpWidth'] * -1}).add(clicked.siblings('ul').show()).animate({'left':0});
                              });
 
                             // Navigate back <-
                         } else {
                             
                             // Let the menu slide out of the viewport.
-                            menuPart.css('right', 'auto').animate({'left':data['navWidth'] * -1}, function() {
+                            menuPart.css('right', 'auto').animate({'left':data['vpWidth'] * -1}, function() {
                                 // Let the last opened menu entry reappear.
                                 clicked.parents('.' + expClass).eq(1).find('> span:first, > a:first').show();
                                 // Hide the submenu after it was shifted out of the viewport.
@@ -220,7 +218,7 @@
                                 // Let the menu entries which have not been clicked reappear.
                                 clicked.parents('li.hasSub:first').siblings('li').show();
                                 // Put the menu to the right and let it slide into the viewport.
-                                menuPart.css({'right':data['navWidth'] * -1, 'left':'auto'}).animate({'right':0});
+                                menuPart.css({'right':data['vpWidth'] * -1, 'left':'auto'}).animate({'right':0});
                                 // Toggle class in callback so the last opened menu entry can be hidden.
                                 clicked.parents('li.hasSub:first').toggleClass(toggleClass);
                             });
@@ -242,8 +240,10 @@
 
                 // REMOVE navButton logic
                 if (!($(data.settings['navButton']) == null)) {
+
                     $this.show();
-                    $(data.settings['navButton']).unbind('click.' + ns);
+
+                    $(data.settings['navButton']).unbind('click.' + ns).hide();
                 }
 
                 // REMOVE TYPE: ACCORDION
