@@ -8,7 +8,7 @@ Copyright (c) 2013 Florian Fassing
 
 @author Florian Fassing
 
-@version 0.2.5 (08-OCT-13)
+@version 0.2.6 (05-DEC-13)
 
 Requires: jQuery v1.7+
 
