@@ -5,7 +5,7 @@
      * Copyright (c) 2013 Florian Fassing
      * 
      * @author Florian Fassing
-     * @version 0.2.6 (05-DEC-13)
+     * @version 0.2.7 (23-DEC-13)
      * 
      * Requires: jQuery v1.7+
      *
@@ -209,7 +209,7 @@
                             clicked.parents('li.hasSub:first').toggleClass(toggleClass);
 
                             // Part of the menu that is going to slide.
-                            menuPart = clicked.parents('ul:first').add($('.' + expClass).parents('ul:first'));
+                            menuPart = clicked.parents('ul:first');
 
                             // Move menu to the right, out of the viewport.
                             menuPart.css('left', 'auto').animate({'right':data['vpWidth'] * -1}, function() {
@@ -223,6 +223,9 @@
 
                             // Navigate back <-
                         } else {
+
+                            // Part of the menu that is going to slide.
+                            menuPart = clicked.parents('ul:first');
 
                             // Let the menu slide out of the viewport.
                             menuPart.css('right', 'auto').animate({'left':data['vpWidth'] * -1}, function() {
