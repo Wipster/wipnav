@@ -5,7 +5,7 @@
      * Copyright (c) 2013 Florian Fassing
      * 
      * @author Florian Fassing
-     * @version 0.2.7 (23-DEC-13)
+     * @version 0.2.8 (11-APR-14)
      * 
      * Requires: jQuery v1.7+
      *
@@ -170,18 +170,11 @@
 
                 // Find submenu containing li elements and mark them with a class. Find the first a or span element and bind a click event to them.
                 var liHasUl = $this.find('li').has('ul').addClass('hasSub ' + colClass);
-                var spanBinding = liHasUl.find('span:first-child:first');
-                var aBinding = liHasUl.find('a:first-child:first');
-
-                // Check if anchor tags were found to bind menu click functionality to them.
-                // The if clause prevents double click-event binding (Spans nested in a tags e.g.).
-                if ( aBinding.length ) {
-                    aBinding.bind('click.' + ns, menuClick);
-                // When no anchor tags were found, check if there are spans. If not through error.
-                } else if ( spanBinding.length ) {
-                    spanBinding.bind('click.' + ns, menuClick);
-                } else {
-                    console.error("wipnav: No elements found for event binding.");
+                // Bind menu click event to the first span or a tag found in a submenu containing li.
+                // TODO: Maybe to last span or a found in a submenu containing li?
+                var actionBinding = liHasUl.find('span:first-child:first, a:first-child:first').bind('click.' + ns, menuClick);
+                if (!actionBinding.length) {
+                    console.warn("wipnav: No elements found for event binding. This could happen when your navigation has no second layer or you are using no span or a tags for the links.");
                 }
 
                 //aBinding.bind('click.' + ns, 
