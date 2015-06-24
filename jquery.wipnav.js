@@ -5,7 +5,7 @@
      * Copyright (c) 2013 Florian Fassing
      * 
      * @author Florian Fassing
-     * @version 0.2.8 (11-APR-14)
+     * @version 0.2.9 (25-JUN-15)
      * 
      * Requires: jQuery v1.7+
      *
