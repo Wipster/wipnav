@@ -182,6 +182,8 @@
 
                     // Disables anchor functionality.
                     event.preventDefault();
+                    // Stop the propagation (bubbling) of the click event on any of the children element(s)
+                    event.stopPropagation();                    
                     var clicked = $(this);
 
                     // TYPE: ACCORDION
